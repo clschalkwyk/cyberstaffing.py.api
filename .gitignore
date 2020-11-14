@@ -1,0 +1,4 @@
+.dynamodb
+.serverless
+.idea
+node_modules
