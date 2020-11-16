@@ -33,6 +33,11 @@ functions:
     handler: wsgi.handler
     events:
       - http: 'POST /users'
+  loginUser:
+    handler: wsgi.handler
+    events:
+      - http: 'POST /users/login'
+
 
 resources:
   Resources:

@@ -8,8 +8,19 @@ UsersTable:
         AttributeType: S
       - AttributeName: sk
         AttributeType: S
+      - AttributeName: email
+        AttributeType: S
     KeySchema:
       - AttributeName: pk
         KeyType: HASH
       - AttributeName: sk
         KeyType: RANGE
+    GlobalSecondaryIndexes:
+      - IndexName: emailIdx
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
