@@ -1,4 +1,4 @@
-service: cyberstaffing-api
+service: cyberstaffing-api-auth
 
 plugins:
   - serverless-python-requirements
@@ -16,25 +16,26 @@ provider:
       - 'multipart/form-data'
   environment:
     TABLE_USERS: ${self:custom.UsersTable.name}
+    JWT_SECRET: e9t/9Wuy7Dwf4yh2oz8+lTShfvg+mzaBcxvoAKcND7KFT1
   iamRoleStatements:
     - ${file(resources/iam/IAM_UsersTable.yml):IAMUsersTable}
 
 functions:
   app:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
   getUser:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
-      - http: 'GET /users/{proxy+}'
+      - http: 'GET /users/me'
   createUser:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
       - http: 'POST /users'
   loginUser:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
       - http: 'POST /users/login'
 
@@ -45,7 +46,7 @@ resources:
 
 custom:
   wsgi:
-    app: app.app
+    app: src.auth.app
     packRequirements: false
   pythonRequirements:
     dockerizePip: non-linux
